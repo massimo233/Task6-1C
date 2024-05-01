@@ -39,10 +39,12 @@ pipeline {
     }
     post {
         always {
-            mail to: 'massimo4484@gmail.com',
+	    emailext (
+            	 to: 'massimo4484@gmail.com',
                  subject: "Jenkins Pipeline Status",
                  body: "The pipeline has completed. Please check the logs.",
                  attachLog: true
+	    )
         }
     }
 }

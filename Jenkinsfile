@@ -10,6 +10,16 @@ pipeline {
             steps {
                 echo 'Running tests with JUnit and Mockito'
             }
+            post {
+                always {
+                    emailext (
+                        to: 'salomonem4488@gmail.com',
+                        subject: "Jenkins Pipeline Test Status: ${currentBuild.currentResult}",
+                        body: "Unit and Integration Test Status: ${currentBuild.currentResult}",
+                        attachLog: true
+                    )
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -19,6 +29,16 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan with OWASP ZAP'
+            }
+            post {
+                always {
+                    emailext (
+                        to: 'salomonem4488@gmail.com',
+                        subject: "Jenkins Pipeline Security Scan Status: ${currentBuild.currentResult}",
+                        body: "Security Scan Status: ${currentBuild.currentResult}",
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Deploy to Staging') {
@@ -35,16 +55,6 @@ pipeline {
             steps {
                 echo 'Deploying to AWS EC2 (production)'
             }
-        }
-    }
-    post {
-        always {
-	    emailext (
-            	 to: 'salomonem4488@gmail.com',
-                 subject: "Jenkins Pipeline Status",
-                 body: "The pipeline has completed. Please check the logs.",
-                 attachLog: true
-	    )
         }
     }
 }

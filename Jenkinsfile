@@ -3,12 +3,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building with Maven'
+                echo 'Building with make'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running tests with JUnit and Mockito'
+                echo 'Running tests with Parasoft C/C++ unit testing'
             }
             post {
                 always {
@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Security Scan') {
             steps {
-                echo 'Performing security scan with OWASP ZAP'
+                echo 'Performing security scan with CodeSonar'
             }
             post {
                 always {
@@ -43,7 +43,7 @@ pipeline {
         }
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to AWS EC2 (staging)'
+                echo 'Deploying to staging'
             }
         }
         stage('Integration Tests on Staging') {
@@ -53,7 +53,7 @@ pipeline {
         }
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to AWS EC2 (production)'
+                echo 'Deploying to production'
             }
         }
     }
